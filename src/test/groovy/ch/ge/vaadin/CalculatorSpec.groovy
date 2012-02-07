@@ -33,7 +33,7 @@ class CalculatorSpec extends Specification {
         clickButton("=")
 
         then:
-        def result = application.result
+        def result = application.current
         result == "6"
     }
 

@@ -4,7 +4,6 @@ import org.junit.Test
 import org.junit.Before
 import org.junit.After
 import com.vaadin.ui.Button
-import org.mockito.Mockito
 import static org.mockito.Mockito.*
 
 /**
@@ -27,16 +26,73 @@ class VaadinCalculatorTest {
         calculator.close()
     }
     
-    @Test void shouldDisplay1IfIPressButton1() {
+    @Test void shouldDisplay2IfIPressButton2() {
         def event = mock(Button.ClickEvent)
         def button = mock(Button)
         
-        when(button.getCaption()).thenReturn(VaadinCalculator.ONE)
+        when(button.getCaption()).thenReturn("2")
         when(event.button).thenReturn(button)
 
         calculator.buttonClick(event)
 
-        assert calculator.result == VaadinCalculator.ONE
+        assert calculator.stored == 2.0
+
+    }
+
+    @Test void shouldDisplay2IfIPressButton2AndPlus() {
+        def event = mock(Button.ClickEvent)
+        def button = mock(Button)
+
+        when(button.getCaption()).thenReturn("2")
+        when(event.button).thenReturn(button)
+
+        calculator.buttonClick(event)
+
+        when(button.getCaption()).thenReturn("+")
+        calculator.buttonClick(event)
+
+        assert calculator.current == 2.0
+
+    }
+
+    @Test void shouldDisplay4IfIPressButton2AndPlusAnd4() {
+        def event = mock(Button.ClickEvent)
+        def button = mock(Button)
+
+        when(button.getCaption()).thenReturn("2")
+        when(event.button).thenReturn(button)
+
+        calculator.buttonClick(event)
+
+        when(button.getCaption()).thenReturn("+")
+        calculator.buttonClick(event)
+
+        when(button.getCaption()).thenReturn("4")
+        calculator.buttonClick(event)
+
+        assert calculator.current == 4.0
+
+    }
+
+    @Test void shouldDisplay6IfIPressButton2AndPlusAnd4AndEqual() {
+        def event = mock(Button.ClickEvent)
+        def button = mock(Button)
+
+        when(button.getCaption()).thenReturn("2")
+        when(event.button).thenReturn(button)
+
+        calculator.buttonClick(event)
+
+        when(button.getCaption()).thenReturn("1")
+        calculator.buttonClick(event)
+
+        when(button.getCaption()).thenReturn("4")
+        calculator.buttonClick(event)
+
+        when(button.getCaption()).thenReturn("=")
+        calculator.buttonClick(event)
+
+        assert calculator.current == 6.0
 
     }
 
